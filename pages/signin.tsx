@@ -6,6 +6,7 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 // import OAuth from "../components/OAuth";
 import { IoIosArrowForward, IoMdEye } from 'react-icons/io';
 import { FaLock, FaUser } from 'react-icons/fa';
+import { useAuth } from '@/context/AuthContext';
 
 function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,8 +14,9 @@ function SignIn() {
     email: '',
     password: '',
   });
-  const { email, password } = formData;
+  const { ...allData } = formData;
 
+  const { logIn } = useAuth();
   const router = useRouter();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,18 +31,15 @@ function SignIn() {
     e.preventDefault();
 
     try {
-      const auth = getAuth();
-
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-
-      if (userCredential.user) {
-        toast.success('Successfully logged in');
-        router.push('/');
-      }
+      await logIn(allData.email, allData.password);
+      toast.success('Successfully logged in');
+      router.push('/');
     } catch (error) {
       toast.error('Bad User Credentials');
     }
   };
+
+  const canSubmit = [...Object.values(allData)].every(Boolean);
 
   return (
     <>
@@ -56,7 +55,7 @@ function SignIn() {
                 className='shadow-[rgba(0,0,0,0.11)] h-12 w-full text-base px-12 py-0 rounded-[3rem] border-0 bg-white my-4'
                 placeholder='Email'
                 id='email'
-                value={email}
+                value={allData.email}
                 onChange={onChange}
               />
               <div className='absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none'>
@@ -69,7 +68,7 @@ function SignIn() {
                 className='shadow-[rgba(0,0,0,0.11)] h-12 w-full text-base px-12 py-0 rounded-[3rem] border-0 bg-white my-4'
                 placeholder='Password'
                 id='password'
-                value={password}
+                value={allData.password}
                 onChange={onChange}
               />
               <div className='absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none'>
@@ -84,9 +83,9 @@ function SignIn() {
               Forgot Password
             </Link>
             <div className='flex justify-center mt-12'>
-              <button className='flex items-center'>
+              <button disabled={!canSubmit} className={`flex items-center ${!canSubmit && 'opacity-50'}`}>
                 <p className='cursor-pointer text-2xl font-bold'>Sign In</p>
-                <div className='flex justify-center items-center w-10 h-10 bg-[#6100FF] rounded-[50%] ml-4'>
+                <div className='cursor-pointer flex justify-center items-center w-10 h-10 bg-[#6100FF] rounded-[50%] ml-4'>
                   <IoIosArrowForward fill='#ffffff' size={24} />
                 </div>
               </button>

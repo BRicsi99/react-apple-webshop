@@ -9,6 +9,7 @@ import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase
 import { IoIosArrowForward, IoMdEye } from 'react-icons/io';
 import { FaLock, FaUser } from 'react-icons/fa';
 import { MdBadge } from 'react-icons/md';
+import { useAuth } from '@/context/AuthContext';
 
 interface FormDataProperties {
   name: string;
@@ -23,8 +24,9 @@ function SignUp() {
     email: '',
     password: '',
   });
-  const { name, email, password } = formData;
+  const { ...allData } = formData;
 
+  const { signUp } = useAuth();
   const router = useRouter();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,11 +41,12 @@ function SignUp() {
 
     try {
       const auth = getAuth();
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await signUp(allData.email, allData.password);
+      console.log(userCredential);
       const user = userCredential.user;
 
       updateProfile(auth.currentUser!, {
-        displayName: name,
+        displayName: allData.name,
       });
       const formDataCopy = { ...formData, timestamp: serverTimestamp() };
       delete formDataCopy['password'];
@@ -72,7 +75,7 @@ function SignUp() {
                 className='shadow-[rgba(0,0,0,0.11)] h-12 w-full text-base px-12 py-0 rounded-[3rem] border-0 bg-white my-4'
                 placeholder='Name'
                 id='name'
-                value={name}
+                value={allData.name}
                 onChange={onChange}
               />
               <div className='absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none'>
@@ -85,7 +88,7 @@ function SignUp() {
                 className='shadow-[rgba(0,0,0,0.11)] h-12 w-full text-base px-12 py-0 rounded-[3rem] border-0 bg-white my-4'
                 placeholder='Email'
                 id='email'
-                value={email}
+                value={allData.email}
                 onChange={onChange}
               />
               <div className='absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none'>
@@ -98,7 +101,7 @@ function SignUp() {
                 className='shadow-[rgba(0,0,0,0.11)] h-12 w-full text-base px-12 py-0 rounded-[3rem] border-0 bg-white my-4'
                 placeholder='Password'
                 id='password'
-                value={password}
+                value={allData.password}
                 onChange={onChange}
               />
               <div className='absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none'>

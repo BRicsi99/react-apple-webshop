@@ -1,3 +1,4 @@
+import { AuthContextProvider } from '@/context/AuthContext';
 import '@/styles/globals.css';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -11,8 +12,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         <title>Apple Webshop</title>
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
       </Head>
-      <Component {...pageProps} />
-      <ToastContainer/>
+      <AuthContextProvider>
+        <Component {...pageProps} />
+      </AuthContextProvider>
+      <ToastContainer />
     </>
   );
 }
