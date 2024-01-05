@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { setDoc, doc, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { setDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase.config';
 import { getAuth, updateProfile } from 'firebase/auth';
 // import OAuth from "../components/OAuth";

@@ -101,7 +101,7 @@ const ProductDetails = () => {
             />
             <div className='w-full flex gap-2 content-center px-[10%] justify-center'>
               {data.images.map((image, index) => (
-                <FaCircle fill={`${index === galleryPicture ? '#6100FF' : 'rgba(50, 50, 50, 0.60)'} `} size={10} />
+                <FaCircle key={index} fill={`${index === galleryPicture ? '#6100FF' : 'rgba(50, 50, 50, 0.60)'} `} size={10} />
               ))}
             </div>
           </div>
