@@ -11,8 +11,11 @@ const ProductCard: FC<ProductCardProps> = ({ data }) => {
   return (
     <div className='items-center justify-center mx-auto mb-4 bg-white rounded-lg shadow-md overflow-hidden desktop:w-[31%] tablet:w-[48%] w-[23%] p-2'>
       <div className='flex flex-wrap'>
-        <div className='w-full'>
+        <div className='w-full relative'>
           <img className='object-cover h-[150px] w-full rounded-lg' src={data.thumbnail} alt={data.title} />
+          <button className='bg-[#6100FF] rounded-2xl my-2 px-4 py-1 w-min text-white cursor-text absolute top-0 right-2 text-sm'>
+            -{data.discountPercentage}%
+          </button>
         </div>
         <div className='flex w-full items-center justify-between py-2 gap-1'>
           <div className='w-3/4'>

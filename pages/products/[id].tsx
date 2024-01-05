@@ -3,11 +3,15 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
-import { ProductProps } from '@/models/model';
-import { FaStar } from 'react-icons/fa';
+import { CartItem, ProductProps } from '@/models/model';
+import { FaCircle, FaStar } from 'react-icons/fa';
+import { useAuth } from '@/context/AuthContext';
+import { useCart } from '@/context/CartContext';
 
 const ProductDetails = () => {
   const router = useRouter();
+  const { user } = useAuth();
+  const { addToCart, cartItems} = useCart();
   const [data, setData] = useState<ProductProps | undefined>(undefined);
   const [galleryPicture, setGalleryPicture] = useState<number>(0);
   const [ratingNumber, setRatingNumber] = useState<number[]>([]);
@@ -18,7 +22,6 @@ const ProductDetails = () => {
         .get(`https://dummyjson.com/products/${router.query.id}`)
         .then(res => {
           setData(res.data);
-          console.log(res.data);
           setStars(res.data.rating);
         })
         .catch(err => {
@@ -56,6 +59,21 @@ const ProductDetails = () => {
     }
   };
 
+  const onAddToChart = () => {
+    if (user.uid) {
+      const product: CartItem = {
+        id: data?.id as number,
+        title: data?.title as string,
+        thumbnail: data?.thumbnail as string,
+        quantity: 1,
+      }
+      addToCart(product);
+      toast.success('Product added to chart');
+    } else {
+      toast.error('You need to be logged in to add products to chart');
+    }
+  };
+
   return (
     <div className='items-center p-4 mt-4'>
       {!data ? (
@@ -68,17 +86,32 @@ const ProductDetails = () => {
           </div>
         </>
       ) : (
-        <div className='flex flex-wrap my-12 px-6 w-full justify-between'>
-          <div className='w-6/12 flex gap-1 justify-center pr-4 mobile:w-full mobile:px-0 mobile:justify-between'>
-            <IoIosArrowBack fill='#323232' size={24} className='h-full cursor-pointer' onClick={() => pictureChanger('prev')} />
+        <div className='flex flex-wrap my-12 px-6 w-full justify-between mobile:my-6'>
+          <div className='w-6/12 flex flex-wrap gap-1 justify-center pr-4 mobile:w-full mobile:px-0 mobile:justify-between'>
+            <IoIosArrowBack
+              fill='#323232'
+              size={24}
+              className='h-full cursor-pointer'
+              onClick={() => pictureChanger('prev')}
+            />
             <img
               src={data.images[galleryPicture]}
               alt={data.title}
               className='rounded-lg shadow-lg w-[80%] h-72 object-cover'
             />
-            <IoIosArrowForward fill='#323232' size={24} className='h-full cursor-pointer' onClick={() => pictureChanger('next')} />
+            <IoIosArrowForward
+              fill='#323232'
+              size={24}
+              className='h-full cursor-pointer'
+              onClick={() => pictureChanger('next')}
+            />
+            <div className='w-full flex gap-2 content-center px-[10%] justify-center'>
+              {data.images.map((image, index) => (
+                <FaCircle fill={`${index === galleryPicture ? '#6100FF' : 'rgba(50, 50, 50, 0.60)'} `} size={10} />
+              ))}
+            </div>
           </div>
-          <div className='w-6/12 pl-4 flex flex-wrap h-auto content-start mobile:w-full mobile:px-0 mobile:mt-4'>
+          <div className='w-6/12 pl-4 flex flex-wrap h-auto content-start mobile:w-full mobile:px-0 mobile:mt-8'>
             <div className='w-1/2'>
               <h2 className='text-[#323232] text-3xl not-italic font-semibold'>{data.title}</h2>
             </div>
@@ -95,13 +128,17 @@ const ProductDetails = () => {
               <p className='text-black text-lg font-medium opacity-60'>Stock: {data.stock}</p>
               <p className='text-black text-lg font-medium opacity-60'>Brand: {data.brand}</p>
               <p className='text-black text-lg font-medium opacity-60'>Category: {data.category}</p>
-              <button className='bg-[#6100FF] rounded-2xl my-2 px-4 py-1 w-min text-white cursor-text'>-{data.discountPercentage}%</button>
+              <button className='bg-[#6100FF] rounded-2xl my-2 px-4 py-1 w-min text-white cursor-text'>
+                -{data.discountPercentage}%
+              </button>
             </div>
             <div className='w-1/2'>
               <h1 className='text-4xl font-semibold'>{data.price} $</h1>
             </div>
             <div className='w-1/2'>
-              <button className='bg-black text-white w-full py-2 rounded-3xl'>Add to chart</button>
+              <button className='bg-black text-white w-full py-2 rounded-3xl' onClick={onAddToChart}>
+                Add to chart
+              </button>
             </div>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import NavBar from '@/components/NavBar';
 import { AuthContextProvider } from '@/context/AuthContext';
+import { CartContextProvider } from '@/context/CartContext';
 import '@/styles/globals.css';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -14,8 +15,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
       </Head>
       <AuthContextProvider>
-        <NavBar />
-        <Component {...pageProps} />
+        <CartContextProvider>
+          <NavBar />
+          <Component {...pageProps} />
+        </CartContextProvider>
       </AuthContextProvider>
       <ToastContainer />
     </>

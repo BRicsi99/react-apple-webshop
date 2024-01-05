@@ -11,3 +11,10 @@ export interface ProductProps {
   thumbnail: string;
   images: string[];
 }
+
+export interface CartItem {
+  id: number;
+  title: string;
+  thumbnail: string;
+  quantity: number;
+}
