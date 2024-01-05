@@ -7,7 +7,7 @@ interface ProductCardProps {
 }
 
 const ProductCard: FC<ProductCardProps> = ({ data }) => {
-    const router = useRouter();
+  const router = useRouter();
   return (
     <div className='items-center justify-center mx-auto mb-4 bg-white rounded-lg shadow-md overflow-hidden desktop:w-[31%] tablet:w-[48%] w-[23%] p-2'>
       <div className='flex flex-wrap'>
@@ -26,7 +26,10 @@ const ProductCard: FC<ProductCardProps> = ({ data }) => {
           </div>
         </div>
         <div className='w-full mt-2 mb-4 mx-2'>
-          <button className='bg-black text-white w-full py-2 rounded-3xl' onClick={() => router.push('/')}>
+          <button
+            className='bg-black text-white w-full py-2 rounded-3xl'
+            onClick={() => router.push(`/products/${data.id}`)}
+          >
             <p className='text-base font-semibold'>See details</p>
           </button>
         </div>
