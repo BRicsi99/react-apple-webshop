@@ -1,31 +1,35 @@
-import NavBar from '@/components/NavBar';
-import { useRouter } from 'next/router';
-import ProtectedRoute from '@/components/ProtectedRoute';
 import { useAuth } from '@/context/AuthContext';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import ProductCard from '@/components/ProductCard';
+import { ProductProps } from '@/models/model';
 
 export default function Home() {
-  const { user, logOut } = useAuth();
-  const router = useRouter();
+  const [data, setData] = useState<ProductProps[]>([]);
+  const { user } = useAuth();
   
+
+  useEffect(() => {
+    axios
+      .get(`https://dummyjson.com/products`)
+      .then(res => {
+        setData(res.data.products);
+        console.log(data);
+      })
+      .catch(err => {
+        toast.error('Failed to fetch products');
+        setData([]);
+      });
+  }, []);
+
   return (
     <>
-      <div className='container flex items-center p-4 mx-auto justify-center'>
+      <div className='items-center p-4 mt-4'>
         <main>
-          <h1 className='font-mono text-xl code'>
-            Welcome to <span className='text-purple-700'>Nextjs</span>,{' '}
-            <span className='text-indigo-700'>TailwindCSS</span> and <span className='text-gray-700'>TypeScript</span>
-          </h1>
-          <p className='text-2xl font-bold underline'>Hello world!</p>
-          <div className='mb-8 flex items-center justify-center'>
-            <button
-              onClick={() => {
-                logOut();
-                router.push('/');
-              }}
-              className='rounded-md bg-green-600 px-10 py-3 text-white shadow-sm hover:bg-green-700'
-            >
-              Logout
-            </button>
+          <h1 className='text-[#323232] text-4xl font-semibold text-center'>See Products</h1>
+          <div className='flex flex-wrap my-12 px-6 w-full gap-1 justify-between'>
+            {!data ? <p>No products available</p> : data.map(p => <ProductCard key={p.id} data={p}/>)}
           </div>
         </main>
       </div>
