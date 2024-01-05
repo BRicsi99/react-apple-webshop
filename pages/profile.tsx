@@ -1,13 +1,13 @@
 import React from 'react';
-import { getAuth } from 'firebase/auth';
 import { useRouter } from 'next/router';
+import { useAuth } from '@/context/AuthContext';
 
 const profile = () => {
-  const auth = getAuth();
   const router = useRouter();
+  const { logOut } = useAuth();
 
-  const onLogOut = () => {
-    auth.signOut();
+  const onLogOut = async () => {
+    await logOut();
     router.push('/');
   };
 

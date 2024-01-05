@@ -1,3 +1,4 @@
+import NavBar from '@/components/NavBar';
 import { AuthContextProvider } from '@/context/AuthContext';
 import '@/styles/globals.css';
 import { AppProps } from 'next/app';
@@ -13,6 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
       </Head>
       <AuthContextProvider>
+        <NavBar />
         <Component {...pageProps} />
       </AuthContextProvider>
       <ToastContainer />

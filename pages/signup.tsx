@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { setDoc, doc, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { db } from '../firebase.config';
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { getAuth, updateProfile } from 'firebase/auth';
 // import OAuth from "../components/OAuth";
 import { IoIosArrowForward, IoMdEye } from 'react-icons/io';
 import { FaLock, FaUser } from 'react-icons/fa';
@@ -42,7 +42,8 @@ function SignUp() {
     try {
       const auth = getAuth();
       const userCredential = await signUp(allData.email, allData.password);
-      console.log(userCredential);
+      
+      // TODO: Add this to AuthContext
       const user = userCredential.user;
 
       updateProfile(auth.currentUser!, {

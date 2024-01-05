@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 // import OAuth from "../components/OAuth";
 import { IoIosArrowForward, IoMdEye } from 'react-icons/io';
 import { FaLock, FaUser } from 'react-icons/fa';
