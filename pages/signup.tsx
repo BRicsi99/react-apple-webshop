@@ -2,26 +2,35 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { setDoc, doc, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { db } from '../firebase.config';
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 // import OAuth from "../components/OAuth";
 import { IoIosArrowForward, IoMdEye } from 'react-icons/io';
 import { FaLock, FaUser } from 'react-icons/fa';
+import { MdBadge } from 'react-icons/md';
 
-function SignIn() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
+interface FormDataProperties {
+  name: string;
+  email: string;
+  password: string;
+}
+
+function SignUp() {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [formData, setFormData] = useState<FormDataProperties>({
+    name: '',
     email: '',
     password: '',
   });
-  const { email, password } = formData;
+  const { name, email, password } = formData;
 
   const router = useRouter();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
     setFormData(prevState => ({
       ...prevState,
-      [id]: value,
+      [e.target.id]: e.target.value,
     }));
   };
 
@@ -30,15 +39,22 @@ function SignIn() {
 
     try {
       const auth = getAuth();
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      updateProfile(auth.currentUser!, {
+        displayName: name,
+      });
+      const formDataCopy = { ...formData, timestamp: serverTimestamp() };
+      delete formDataCopy['password'];
 
-      if (userCredential.user) {
-        toast.success('Successfully logged in');
-        router.push('/');
-      }
+      await setDoc(doc(db, 'users', user.uid), formDataCopy);
+
+      toast.success('Successfully registered');
+      router.push('/');
     } catch (error) {
-      toast.error('Bad User Credentials');
+      toast.error('Something went wrong with registration');
+      console.log(error);
     }
   };
 
@@ -46,10 +62,23 @@ function SignIn() {
     <>
       <div className='m-4'>
         <header>
-          <p className='text-3xl font-extrabold mb-2'>Welcome back</p>
+          <p className='text-3xl font-extrabold mb-2'>Welcome</p>
         </header>
         <main>
           <form onSubmit={onSubmit}>
+            <div className='relative'>
+              <input
+                type='text'
+                className='shadow-[rgba(0,0,0,0.11)] h-12 w-full text-base px-12 py-0 rounded-[3rem] border-0 bg-white my-4'
+                placeholder='Name'
+                id='name'
+                value={name}
+                onChange={onChange}
+              />
+              <div className='absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none'>
+                <MdBadge />
+              </div>
+            </div>
             <div className='relative'>
               <input
                 type='email'
@@ -79,13 +108,9 @@ function SignIn() {
                 <IoMdEye size={24} alt='showPassword' onClick={() => setShowPassword(prevState => !prevState)} />
               </div>
             </div>
-
-            <Link href='/forgot-password' className='cursor-pointer text-[#6100FF] font-semibold text-right'>
-              Forgot Password
-            </Link>
             <div className='flex justify-center mt-12'>
               <button className='flex items-center'>
-                <p className='cursor-pointer text-2xl font-bold'>Sign In</p>
+                <p className='cursor-pointer text-2xl font-bold'>Sign Up</p>
                 <div className='flex justify-center items-center w-10 h-10 bg-[#6100FF] rounded-[50%] ml-4'>
                   <IoIosArrowForward fill='#ffffff' size={24} />
                 </div>
@@ -95,8 +120,8 @@ function SignIn() {
           {/*<OAuth/>*/}
 
           <div className='flex justify-center items-center mt-6'>
-            <Link href='/signup' className='text-[#6100FF] font-semibold text-center mt-16 mb-12'>
-              Sign Up Instead
+            <Link href='/signin' className='text-[#6100FF] font-semibold text-center mt-16 mb-12'>
+              Sign In Instead
             </Link>
           </div>
         </main>
@@ -105,4 +130,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default SignUp;
