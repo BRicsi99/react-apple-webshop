@@ -5,13 +5,11 @@ import { toast } from 'react-toastify';
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
 import { CartItem, ProductProps } from '@/models/model';
 import { FaCircle, FaStar } from 'react-icons/fa';
-import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
 
 const ProductDetails = () => {
   const router = useRouter();
-  const { user } = useAuth();
-  const { addToCart, cartItems} = useCart();
+  const { addToCart } = useCart();
   const [data, setData] = useState<ProductProps | undefined>(undefined);
   const [galleryPicture, setGalleryPicture] = useState<number>(0);
   const [ratingNumber, setRatingNumber] = useState<number[]>([]);
@@ -60,18 +58,14 @@ const ProductDetails = () => {
   };
 
   const onAddToChart = () => {
-    if (user.uid) {
-      const product: CartItem = {
-        id: data?.id as number,
-        title: data?.title as string,
-        thumbnail: data?.thumbnail as string,
-        quantity: 1,
-      }
-      addToCart(product);
-      toast.success('Product added to chart');
-    } else {
-      toast.error('You need to be logged in to add products to chart');
-    }
+    const product: CartItem = {
+      id: data?.id as number,
+      title: data?.title as string,
+      thumbnail: data?.thumbnail as string,
+      quantity: 1,
+    };
+    addToCart(product);
+    toast.success('Product added to chart');
   };
 
   return (

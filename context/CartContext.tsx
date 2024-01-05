@@ -6,6 +6,7 @@ interface CartContextType {
   cartItems: CartItem[];
   addToCart: (item: CartItem) => void;
   removeFromCart: (itemId: number) => void;
+  updateCart: (itemId: number, isIncrease: boolean) => void;
 }
 
 // Create the CartContext
@@ -13,6 +14,7 @@ const CartContext = createContext<CartContextType>({
   cartItems: [],
   addToCart: () => {},
   removeFromCart: () => {},
+  updateCart: () => {},
 });
 
 export const useCart = () => useContext<any>(CartContext);
@@ -41,5 +43,29 @@ export const CartContextProvider = ({ children }: { children: React.ReactNode })
     setCartItems(prevItems => prevItems.filter(item => item.id !== itemId));
   };
 
-  return <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>{children}</CartContext.Provider>;
+  const updateCart = (itemId: number, isIncrease: boolean) => {
+    let NewCartItems: CartItem[] = [];
+    if (isIncrease) {
+      NewCartItems = cartItems.map(i => {
+        if (i.id === itemId) {
+          return { ...i, quantity: i.quantity + 1 };
+        }
+        return i;
+      });
+      setCartItems(NewCartItems);
+    } else {
+      NewCartItems = cartItems.map(i => {
+        if (i.id === itemId) {
+          if (i.quantity === 0) {
+            return i;
+          }
+          return { ...i, quantity: i.quantity - 1 };
+        }
+        return i;
+      });
+      setCartItems(NewCartItems);
+    }
+  }
+
+  return <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateCart }}>{children}</CartContext.Provider>;
 };
