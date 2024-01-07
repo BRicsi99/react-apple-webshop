@@ -2,20 +2,12 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { setDoc, doc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../firebase.config';
-import { getAuth, updateProfile } from 'firebase/auth';
 // import OAuth from "../components/OAuth";
 import { IoIosArrowForward, IoMdEye } from 'react-icons/io';
 import { FaLock, FaUser } from 'react-icons/fa';
 import { MdBadge } from 'react-icons/md';
 import { useAuth } from '@/context/AuthContext';
-
-interface FormDataProperties {
-  name: string;
-  email: string;
-  password: string;
-}
+import { FormDataProperties } from '@/models/model';
 
 function SignUp() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -40,20 +32,7 @@ function SignUp() {
     e.preventDefault();
 
     try {
-      const auth = getAuth();
-      const userCredential = await signUp(allData.email, allData.password);
-      
-      // TODO: Add this to AuthContext
-      const user = userCredential.user;
-
-      updateProfile(auth.currentUser!, {
-        displayName: allData.name,
-      });
-      const formDataCopy = { ...formData, timestamp: serverTimestamp() };
-      delete formDataCopy['password'];
-
-      await setDoc(doc(db, 'users', user.uid), formDataCopy);
-
+      signUp(formData);
       toast.success('Successfully registered');
       router.push('/');
     } catch (error) {

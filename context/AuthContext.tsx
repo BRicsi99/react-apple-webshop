@@ -1,27 +1,29 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { auth } from '../firebase.config';
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
+} from 'firebase/auth';
+import { auth, db } from '../firebase.config';
+import { FormDataCopyProperties, FormDataProperties } from '@/models/model';
+import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
 
-// User data type interface
 interface UserType {
   email: string | null;
   uid: string | null;
   name: string | null;
 }
 
-// Create auth context
 const AuthContext = createContext({});
 
-// Make auth context available across the app by exporting it
 export const useAuth = () => useContext<any>(AuthContext);
 
-// Create the auth context provider
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
-  // Define the constants for the user and loading state
   const [user, setUser] = useState<UserType>({ email: null, uid: null, name: null });
   const [loading, setLoading] = useState<Boolean>(true);
 
-  // Update the state depending on auth
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
       if (user) {
@@ -41,13 +43,24 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   }, []);
 
   // Sign up the user
-  const signUp = (email: string, password: string) => {
-    return createUserWithEmailAndPassword(auth, email, password);
+  const signUp = async (formData: FormDataProperties) => {
+    const { ...allData } = formData;
+    const userCredential = await createUserWithEmailAndPassword(auth, allData.email, allData.password);
+
+    const user = userCredential.user;
+
+    updateProfile(auth.currentUser!, {
+      displayName: allData.name,
+    });
+    const formDataCopy: FormDataCopyProperties = { ...formData, timestamp: serverTimestamp() };
+    delete formDataCopy['password'];
+
+    await setDoc(doc(db, 'users', user.uid), formDataCopy);
   };
 
   // Login the user
   const logIn = (email: string, password: string) => {
-    return signInWithEmailAndPassword(auth, email, password);
+    signInWithEmailAndPassword(auth, email, password);
   };
 
   // Logout the user
@@ -56,7 +69,6 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     return await signOut(auth);
   };
 
-  // Wrap the children with the context provider
   return (
     <AuthContext.Provider value={{ user, signUp, logIn, logOut }}>{loading ? null : children}</AuthContext.Provider>
   );

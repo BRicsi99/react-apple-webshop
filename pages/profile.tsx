@@ -61,10 +61,10 @@ const profile = () => {
         </button>
       </header>
       <main>
-        <div className='flex justify-between max-w-[500px] my-4'>
-          <p>Personal Details</p>
+        <div className='flex justify-between w-full my-4'>
+          <p className='font-semibold'>Personal Details</p>
         </div>
-        <div className='bg-white shadow-[rgba(0,0,0,0.2)] max-w-[500px] p-4 rounded-2xl'>
+        <div className='bg-white shadow-[rgba(0,0,0,0.2)] w-full p-4 rounded-2xl'>
           <form>
             <label htmlFor="name">Name</label>
             <input
@@ -84,9 +84,9 @@ const profile = () => {
             />
           </form>
         </div>
-        <div className='max-w-[500px] py-4 rounded-2xl'>
+        <div className='w-full my-4 py-4 rounded-2xl justify-center flex'>
           <button
-            className='flex items-center justify-center bg-black text-white w-full py-2 rounded-3xl'
+            className='flex items-center justify-center bg-black text-white py-2 rounded-3xl w-1/2'
             onClick={() => router.push('/')}
           >
             <p className='cursor-pointer text-xl font-bold'>Start your purchase</p>
@@ -98,7 +98,7 @@ const profile = () => {
 
         {purchases && (
           <>
-            <p className='font-semibold mt-12'>Your Purchases</p>
+            <p className='font-semibold mt-8'>Your Purchases</p>
             <ul className='listingsList'>
               {purchases.map((purchase: PurchasesProps, index: number) => (
                 <PurchaseItem key={index} purchase={purchase}/>

@@ -36,3 +36,16 @@ export interface PurchasesProps {
     };
   };
 }
+
+export interface FormDataProperties {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export interface FormDataCopyProperties {
+  name: string;
+  email: string;
+  password?: string;
+  timestamp?: any;
+}
