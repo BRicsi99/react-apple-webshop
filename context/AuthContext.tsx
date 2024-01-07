@@ -1,4 +1,4 @@
-import { FormDataCopyProperties, FormDataProperties, UserType } from '@/models/model';
+import { FormDataCopyProperties, SignUpFormDataProperties, UserType } from '@/models/model';
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -37,7 +37,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   }, []);
 
   // Sign up the user
-  const signUp = async (formData: FormDataProperties) => {
+  const signUp = async (formData: SignUpFormDataProperties) => {
     const { ...allData } = formData;
     const userCredential = await createUserWithEmailAndPassword(auth, allData.email, allData.password);
 
