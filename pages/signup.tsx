@@ -8,6 +8,7 @@ import { FaLock, FaUser } from 'react-icons/fa';
 import { MdBadge } from 'react-icons/md';
 import { useAuth } from '@/context/AuthContext';
 import { FormDataProperties } from '@/models/model';
+import OAuth from '@/components/OAuth';
 
 function SignUp() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -40,6 +41,8 @@ function SignUp() {
       console.log(error);
     }
   };
+
+  const canSubmit = [...Object.values(allData)].every(Boolean);
 
   return (
     <>
@@ -96,15 +99,18 @@ function SignUp() {
               </div>
             </div>
             <div className='flex justify-center mt-12'>
-              <button className='flex items-center'>
-                <p className='cursor-pointer text-2xl font-bold'>Sign Up</p>
+              <button
+                disabled={!canSubmit}
+                className={`cursor-pointer flex items-center ${!canSubmit && 'opacity-50 cursor-not-allowed'}`}
+              >
+                <p className='text-2xl font-bold'>Sign Up</p>
                 <div className='flex justify-center items-center w-10 h-10 bg-[#6100FF] rounded-[50%] ml-4'>
                   <IoIosArrowForward fill='#ffffff' size={24} />
                 </div>
               </button>
             </div>
           </form>
-          {/*<OAuth/>*/}
+          <OAuth />
 
           <div className='flex justify-center items-center mt-6'>
             <Link href='/signin' className='text-[#6100FF] font-semibold text-center mt-16 mb-12'>

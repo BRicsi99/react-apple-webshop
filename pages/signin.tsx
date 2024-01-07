@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { IoIosArrowForward, IoMdEye, IoMdEyeOff } from 'react-icons/io';
 import { FaLock, FaUser } from 'react-icons/fa';
 import { useAuth } from '@/context/AuthContext';
+import OAuth from '@/components/OAuth';
 
 function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
@@ -86,15 +87,18 @@ function SignIn() {
               Forgot Password
             </Link>
             <div className='flex justify-center mt-12'>
-              <button disabled={!canSubmit} className={`flex items-center ${!canSubmit && 'opacity-50'}`}>
-                <p className='cursor-pointer text-2xl font-bold'>Sign In</p>
-                <div className='cursor-pointer flex justify-center items-center w-10 h-10 bg-[#6100FF] rounded-[50%] ml-4'>
+              <button
+                disabled={!canSubmit}
+                className={`cursor-pointer flex items-center ${!canSubmit && 'opacity-50 cursor-not-allowed'}`}
+              >
+                <p className=' text-2xl font-bold'>Sign In</p>
+                <div className=' flex justify-center items-center w-10 h-10 bg-[#6100FF] rounded-[50%] ml-4'>
                   <IoIosArrowForward fill='#ffffff' size={24} />
                 </div>
               </button>
             </div>
           </form>
-          {/*<OAuth/>*/}
+          <OAuth />
 
           <div className='flex justify-center items-center mt-6'>
             <Link href='/signup' className='text-[#6100FF] font-semibold text-center mt-16 mb-12'>

@@ -54,7 +54,7 @@ const profile = () => {
         <p className='text-[2rem] font-extrabold'>My Profile</p>
         <button
           type='button'
-          className='cursor-pointer text-base font-semibold text-white bg-[#00cc66] px-3 py-1 rounded-2xl'
+          className='cursor-pointer text-base font-semibold text-white bg-[#6100FF] px-3 py-1 rounded-2xl'
           onClick={onLogOut}
         >
           Logout
