@@ -6,6 +6,7 @@ import { auth } from '../firebase.config';
 interface UserType {
   email: string | null;
   uid: string | null;
+  name: string | null;
 }
 
 // Create auth context
@@ -17,7 +18,7 @@ export const useAuth = () => useContext<any>(AuthContext);
 // Create the auth context provider
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   // Define the constants for the user and loading state
-  const [user, setUser] = useState<UserType>({ email: null, uid: null });
+  const [user, setUser] = useState<UserType>({ email: null, uid: null, name: null });
   const [loading, setLoading] = useState<Boolean>(true);
 
   // Update the state depending on auth
@@ -27,9 +28,10 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
         setUser({
           email: user.email,
           uid: user.uid,
+          name: user.displayName,
         });
       } else {
-        setUser({ email: null, uid: null });
+        setUser({ email: null, uid: null, name: null });
       }
     });
 
@@ -50,7 +52,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 
   // Logout the user
   const logOut = async () => {
-    setUser({ email: null, uid: null });
+    setUser({ email: null, uid: null, name: null });
     return await signOut(auth);
   };
 

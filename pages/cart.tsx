@@ -76,7 +76,7 @@ const Cart = () => {
                         </button>
                       </div>
                     </div>
-                    {index < cartItems.length - 1 && <hr className='bg-gray-600 border-0 h-px' />}
+                    {index < cartItems.length - 1 && <hr className='bg-gray-600 border-0 h-px mb-4 mt-6' />}
                   </div>
                 ))}
               </div>

@@ -16,7 +16,7 @@ const CartModal: React.FC<CartModalProps> = ({ visible }) => {
       <div className='flex flex-col gap-3'>
         {cartItems.map((item: CartItem, index: number) => (
           <div key={index}>
-            <div key={index} className='flex gap-2 items-center justify-between'>
+            <div className='flex gap-2 items-center justify-between'>
               <img src={item.thumbnail} alt={item.title} className='w-10 h-10 rounded-lg object-cover' />
               <p className='text-sm text-black text-center'>{item.title}</p>
               <button className='bg-[#6100FF] rounded-2xl my-2 px-2 w-min text-white cursor-text'>

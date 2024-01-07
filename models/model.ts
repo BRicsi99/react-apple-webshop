@@ -18,3 +18,21 @@ export interface CartItem {
   thumbnail: string;
   quantity: number;
 }
+
+export interface PurchaseProps {
+  id: number;
+  quantity: number;
+  thumbnail: string;
+  title: string;
+}
+export interface PurchasesProps {
+  id: string;
+  data: {
+    items: PurchaseProps[];
+    userId: string;
+    timestamp: {
+      nanoseconds: number;
+      seconds: number;
+    };
+  };
+}
