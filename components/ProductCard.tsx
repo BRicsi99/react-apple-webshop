@@ -11,22 +11,22 @@ const ProductCard: FC<ProductCardProps> = ({ data }) => {
   return (
     <div className='items-center justify-center mx-auto mb-4 bg-white rounded-lg shadow-md overflow-hidden desktop:w-[31%] tablet:w-[48%] w-[23%] p-2'>
       <div className='flex flex-wrap content-between h-full'>
-        <div className='flex flex-wrap content-start'>
+        <div className='flex flex-wrap content-start w-full'>
           <div className='w-full relative'>
             <img className='object-cover h-[150px] w-full rounded-lg' src={data.thumbnail} alt={data.title} />
             <button className='bg-[#6100FF] rounded-2xl my-2 px-4 py-1 w-min text-white cursor-text absolute top-0 right-2 text-sm'>
               -{data.discountPercentage}%
             </button>
           </div>
-          <div className='flex w-full items-center justify-between py-2 gap-1'>
-            <div className='w-3/4'>
+          <div className='flex mobile:flex-wrap w-full items-center justify-between py-2 gap-1'>
+            <div className='w-3/4 mobile:w-full'>
               <div className='text-lg text-[#323232] font-semibold text-ellipsis overflow-hidden w-full whitespace-nowrap'>
                 {data.title}
               </div>
               <div className='text-sm text-[#323232] file:font-medium line-clamp-2 w-full'>{data.description}</div>
             </div>
-            <div className='w-1/4 h-full content-start'>
-              <p className='text-xl font-semibold text-[#323232] text-right'>{data.price} $</p>
+            <div className='w-1/4 mobile:w-full h-full content-start'>
+              <p className='text-xl font-semibold text-[#323232] text-right mobile:text-center'>{data.price} $</p>
             </div>
           </div>
         </div>

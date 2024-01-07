@@ -28,6 +28,7 @@ const profile = () => {
         });
       });
 
+      listings.sort((a: any, b: any) => b.data.timestamp.seconds - a.data.timestamp.seconds);
       setPurchases(listings);
     };
 
@@ -58,14 +59,14 @@ const profile = () => {
         <div className='bg-white shadow-[rgba(0,0,0,0.2)] w-full p-4 rounded-2xl'>
           <form>
             <label htmlFor='name'>Name</label>
-            <input type='text' id='name' className='font-semibold w-full mx-0 my-[0.3rem]' disabled value={user.name} />
+            <input type='text' id='name' className='font-semibold w-full mx-0 my-[0.3rem]' disabled value={user.name ? user.name : ''} />
             <label htmlFor='email'>Email</label>
             <input
               type='text'
               id='email'
               className='font-semibold w-full mx-0 my-[0.3rem]'
               disabled
-              value={user.email}
+              value={user.email ? user.email : ''}
             />
           </form>
         </div>
