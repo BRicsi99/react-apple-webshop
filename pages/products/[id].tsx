@@ -1,11 +1,11 @@
-import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
-import { CartItem, ProductProps } from '@/models/model';
-import { FaCircle, FaStar } from 'react-icons/fa';
 import { useCart } from '@/context/CartContext';
+import { CartItem, ProductProps } from '@/models/model';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { FaCircle, FaStar } from 'react-icons/fa';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { toast } from 'react-toastify';
 
 const ProductDetails = () => {
   const router = useRouter();
@@ -100,8 +100,12 @@ const ProductDetails = () => {
               onClick={() => pictureChanger('next')}
             />
             <div className='w-full flex gap-2 content-center px-[10%] justify-center'>
-              {data.images.map((image, index) => (
-                <FaCircle key={index} fill={`${index === galleryPicture ? '#6100FF' : 'rgba(50, 50, 50, 0.60)'} `} size={10} />
+              {data.images.map((image, index: number) => (
+                <FaCircle
+                  key={index}
+                  fill={`${index === galleryPicture ? '#6100FF' : 'rgba(50, 50, 50, 0.60)'} `}
+                  size={10}
+                />
               ))}
             </div>
           </div>
@@ -131,7 +135,7 @@ const ProductDetails = () => {
             </div>
             <div className='w-1/2'>
               <button className='bg-black text-white w-full py-2 rounded-3xl' onClick={onAddToChart}>
-                Add to chart
+                Add to cart
               </button>
             </div>
           </div>

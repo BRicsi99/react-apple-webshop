@@ -1,16 +1,26 @@
 import { useAuth } from '@/context/AuthContext';
-import { useRouter } from 'next/router';
-import React, { useCallback, useState } from 'react';
-import { FaShoppingCart, FaUser, FaUserCheck } from 'react-icons/fa';
-import CartModal from './CartModal';
 import { useCart } from '@/context/CartContext';
-import { TiHome } from "react-icons/ti";
+import { CartItem } from '@/models/model';
+import { useRouter } from 'next/router';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FaShoppingCart, FaUser, FaUserCheck } from 'react-icons/fa';
+import { TiHome } from 'react-icons/ti';
+import CartModal from './CartModal';
 
 const NavBar = () => {
   const router = useRouter();
   const { user } = useAuth();
   const { cartItems } = useCart();
-  const [showCartModal, setShowCartModal] = useState(false);
+  const [showCartModal, setShowCartModal] = useState<boolean>(false);
+  const [cartItemNumber, setCartItemNumber] = useState<number>(0);
+
+  useEffect(() => {
+    let total = 0;
+    cartItems.forEach((item: CartItem) => {
+      total += item.quantity;
+    });
+    setCartItemNumber(total);
+  }, [cartItems]);
 
   const loginDirecter = () => {
     if (user.uid) {
@@ -31,7 +41,9 @@ const NavBar = () => {
       </div>
       <div className='items-center cursor-pointer w-[60px] my-auto justify-end relative py-1' onClick={toggleCartModal}>
         <FaShoppingCart size={26} className={`text-black transition`} />
-        <button className='bg-red-600 rounded-2xl w-min text-white text-[10px] cursor-none absolute bottom-0 right-7 px-1'>{cartItems.length}</button>
+        <button className='bg-red-600 rounded-2xl w-min text-white text-[10px] cursor-none absolute bottom-0 right-7 px-1'>
+          {cartItemNumber}
+        </button>
         <CartModal visible={showCartModal} />
       </div>
       <div className='items-center cursor-pointer w-[40px] my-auto justify-end'>

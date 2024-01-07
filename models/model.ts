@@ -37,7 +37,12 @@ export interface PurchasesProps {
   };
 }
 
-export interface FormDataProperties {
+export interface SignInFormDataProperties {
+  email: string;
+  password: string;
+}
+
+export interface SignUpFormDataProperties {
   name: string;
   email: string;
   password: string;
@@ -48,4 +53,18 @@ export interface FormDataCopyProperties {
   email: string;
   password?: string;
   timestamp?: any;
+}
+
+export interface UserType {
+  email: string | null;
+  uid: string | null;
+  name: string | null;
+}
+
+export interface CartContextType {
+  cartItems: CartItem[];
+  addToCart: (item: CartItem) => void;
+  removeFromCart: (itemId: number) => void;
+  updateCart: (itemId: number, isIncrease: boolean) => void;
+  emptyCart: () => void;
 }

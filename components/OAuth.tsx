@@ -1,8 +1,8 @@
+import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
+import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
 import { useRouter } from 'next/router';
-import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../firebase.config';
 import { toast } from 'react-toastify';
+import { db } from '../firebase.config';
 
 function OAuth() {
   const router = useRouter();
@@ -35,7 +35,10 @@ function OAuth() {
   return (
     <div className='flex flex-col items-center mt-8'>
       <p className='font-medium'> Sign {router.pathname === '/signup' ? 'up' : 'in'} with</p>
-      <button className='cursor-pointer flex justify-center items-center w-12 h-12 bg-white shadow-[0_4px_8px_0_rgba(0,0,0,0.1)] m-4 p-3 rounded-[50%]' onClick={onGoogleClick}>
+      <button
+        className='cursor-pointer flex justify-center items-center w-12 h-12 bg-white shadow-[0_4px_8px_0_rgba(0,0,0,0.1)] m-4 p-3 rounded-[50%]'
+        onClick={onGoogleClick}
+      >
         <img className='w-full' src='/googleIcon.svg' alt='google' />
       </button>
     </div>

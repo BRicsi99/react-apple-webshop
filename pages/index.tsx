@@ -1,9 +1,8 @@
-import { useAuth } from '@/context/AuthContext';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
 import ProductCard from '@/components/ProductCard';
 import { ProductProps } from '@/models/model';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 const Home = () => {
   const [data, setData] = useState<ProductProps[]>([]);

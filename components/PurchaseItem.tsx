@@ -11,8 +11,12 @@ const PurchaseItem: FC<PurchaseItemProps> = ({ purchase }) => {
   return (
     <li>
       <div className='bg-white p-8 my-4 rounded-xl shadow-md'>
-        <p>Purchase ID: <span className='font-semibold'>{purchase.id}</span></p>
-        <p>Purchase date: <span className='font-semibold'>{timestamp.toLocaleDateString()}</span></p>
+        <p>
+          Purchase ID: <span className='font-semibold'>{purchase.id}</span>
+        </p>
+        <p>
+          Purchase date: <span className='font-semibold'>{timestamp.toLocaleDateString()}</span>
+        </p>
         <p className='mb-4'>Items:</p>
         {purchase.data.items.map((item, index) => (
           <div key={index}>

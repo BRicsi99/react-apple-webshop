@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { toast } from 'react-toastify';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-// import OAuth from "../components/OAuth";
-import { IoIosArrowForward, IoMdEye, IoMdEyeOff } from 'react-icons/io';
-import { FaLock, FaUser } from 'react-icons/fa';
-import { useAuth } from '@/context/AuthContext';
 import OAuth from '@/components/OAuth';
+import { useAuth } from '@/context/AuthContext';
+import { SignInFormDataProperties } from '@/models/model';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { FaLock, FaUser } from 'react-icons/fa';
+import { IoIosArrowForward, IoMdEye, IoMdEyeOff } from 'react-icons/io';
+import { toast } from 'react-toastify';
 
 function SignIn() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [formData, setFormData] = useState<SignInFormDataProperties>({
     email: '',
     password: '',
   });

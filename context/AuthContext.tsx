@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import { FormDataCopyProperties, FormDataProperties, UserType } from '@/models/model';
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -6,15 +6,9 @@ import {
   signOut,
   updateProfile,
 } from 'firebase/auth';
-import { auth, db } from '../firebase.config';
-import { FormDataCopyProperties, FormDataProperties } from '@/models/model';
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
-
-interface UserType {
-  email: string | null;
-  uid: string | null;
-  name: string | null;
-}
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { auth, db } from '../firebase.config';
 
 const AuthContext = createContext({});
 

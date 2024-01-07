@@ -1,17 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { useAuth } from '@/context/AuthContext';
-import {
-  collection,
-  getDocs,
-  query,
-  where,
-  orderBy,
-} from 'firebase/firestore';
-import { db } from '@/firebase.config';
-import { IoIosArrowForward } from 'react-icons/io';
 import PurchaseItem from '@/components/PurchaseItem';
+import { useAuth } from '@/context/AuthContext';
+import { db } from '@/firebase.config';
 import { PurchasesProps } from '@/models/model';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { IoIosArrowForward } from 'react-icons/io';
 
 const profile = () => {
   const { user, logOut } = useAuth();
@@ -21,10 +15,7 @@ const profile = () => {
   useEffect(() => {
     const fetchUserListings = async () => {
       const purchasesRef = collection(db, 'purchases');
-      const q = query(
-        purchasesRef,
-        where("userId", "==", user.uid),
-      );
+      const q = query(purchasesRef, where('userId', '==', user.uid));
 
       const querySnap = await getDocs(q);
 
@@ -66,19 +57,13 @@ const profile = () => {
         </div>
         <div className='bg-white shadow-[rgba(0,0,0,0.2)] w-full p-4 rounded-2xl'>
           <form>
-            <label htmlFor="name">Name</label>
-            <input
-              type='text'
-              id='name'
-              className='font-semibold w-full mx-0 my-[0.3rem]'
-              disabled
-              value={user.name}
-            />
-            <label htmlFor="email">Email</label>
+            <label htmlFor='name'>Name</label>
+            <input type='text' id='name' className='font-semibold w-full mx-0 my-[0.3rem]' disabled value={user.name} />
+            <label htmlFor='email'>Email</label>
             <input
               type='text'
               id='email'
-              className='font-semibold w-full mx-0 my-[0.3rem] text-black'
+              className='font-semibold w-full mx-0 my-[0.3rem]'
               disabled
               value={user.email}
             />
@@ -101,7 +86,7 @@ const profile = () => {
             <p className='font-semibold mt-8'>Your Purchases</p>
             <ul className='listingsList'>
               {purchases.map((purchase: PurchasesProps, index: number) => (
-                <PurchaseItem key={index} purchase={purchase}/>
+                <PurchaseItem key={index} purchase={purchase} />
               ))}
             </ul>
           </>

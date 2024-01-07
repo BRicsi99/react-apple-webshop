@@ -1,18 +1,17 @@
-import { useState } from 'react';
-import { toast } from 'react-toastify';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-// import OAuth from "../components/OAuth";
-import { IoIosArrowForward, IoMdEye, IoMdEyeOff } from 'react-icons/io';
-import { FaLock, FaUser } from 'react-icons/fa';
-import { MdBadge } from 'react-icons/md';
-import { useAuth } from '@/context/AuthContext';
-import { FormDataProperties } from '@/models/model';
 import OAuth from '@/components/OAuth';
+import { useAuth } from '@/context/AuthContext';
+import { SignUpFormDataProperties } from '@/models/model';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { FaLock, FaUser } from 'react-icons/fa';
+import { IoIosArrowForward, IoMdEye, IoMdEyeOff } from 'react-icons/io';
+import { MdBadge } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 function SignUp() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [formData, setFormData] = useState<FormDataProperties>({
+  const [formData, setFormData] = useState<SignUpFormDataProperties>({
     name: '',
     email: '',
     password: '',
@@ -31,6 +30,10 @@ function SignUp() {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (allData.password.length < 6) {
+      toast.error('Password must be at least 6 characters');
+      return;
+    }
 
     try {
       signUp(formData);
