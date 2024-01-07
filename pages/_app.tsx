@@ -12,6 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>Apple Webshop</title>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
       </Head>
       <AuthContextProvider>

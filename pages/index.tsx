@@ -24,7 +24,7 @@ const Home = () => {
     <div className='items-center p-4 mt-4'>
       <main>
         <h1 className='text-[#323232] text-4xl font-semibold text-center'>See Products</h1>
-        <div className='flex flex-wrap my-12 px-6 w-full gap-1 justify-between'>
+        <div className='flex flex-wrap my-12 mobile:px-0 px-6 w-full gap-1 justify-between'>
           {!data ? <p>No products available</p> : data.map(p => <ProductCard key={p.id} data={p} />)}
         </div>
       </main>

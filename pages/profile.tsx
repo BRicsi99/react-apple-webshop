@@ -86,7 +86,7 @@ const profile = () => {
         </div>
         <div className='w-full my-4 py-4 rounded-2xl justify-center flex'>
           <button
-            className='flex items-center justify-center bg-black text-white py-2 rounded-3xl w-1/2'
+            className='flex items-center justify-center bg-black text-white py-2 rounded-3xl w-1/2 mobile:w-full'
             onClick={() => router.push('/')}
           >
             <p className='cursor-pointer text-xl font-bold'>Start your purchase</p>

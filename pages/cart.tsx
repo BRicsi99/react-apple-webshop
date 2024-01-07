@@ -44,7 +44,7 @@ const Cart = () => {
           <p className='text-3xl font-extrabold mb-2'>Cart</p>
         </header>
         <main>
-          <div className='bg-white p-8 m-4 rounded-xl shadow-md'>
+          <div className='bg-white p-8 m-4 mobile:mx-0 mobile:p-4 rounded-xl shadow-md'>
             {!cartItems.length ? (
               <p>The cart is empty</p>
             ) : (

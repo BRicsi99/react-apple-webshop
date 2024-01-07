@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 // import OAuth from "../components/OAuth";
-import { IoIosArrowForward, IoMdEye } from 'react-icons/io';
+import { IoIosArrowForward, IoMdEye, IoMdEyeOff } from 'react-icons/io';
 import { FaLock, FaUser } from 'react-icons/fa';
 import { MdBadge } from 'react-icons/md';
 import { useAuth } from '@/context/AuthContext';
@@ -88,7 +88,11 @@ function SignUp() {
                 <FaLock />
               </div>
               <div className='absolute inset-y-0 right-0 pr-5 flex items-center cursor-pointer'>
-                <IoMdEye size={24} alt='showPassword' onClick={() => setShowPassword(prevState => !prevState)} />
+                {showPassword ? (
+                  <IoMdEyeOff size={24} alt='showPassword' onClick={() => setShowPassword(prevState => !prevState)} />
+                ) : (
+                  <IoMdEye size={24} alt='showPassword' onClick={() => setShowPassword(prevState => !prevState)} />
+                )}
               </div>
             </div>
             <div className='flex justify-center mt-12'>
